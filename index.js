@@ -9,6 +9,63 @@
  for you to use if you need it!
  */
 
+
+// Your code here
+function createEmployeeRecord(employee) {
+    return {
+      firstName: employee[0],
+      familyName: employee[1],
+      title: employee[2],
+      payPerHour: employee[3],
+      timeInEvents: [],
+      timeOutEvents: [],
+    };
+  }
+  
+  function createEmployeeRecords(employees) {
+    return employees.map((employee) => {
+      return createEmployeeRecord(employee);
+    });
+  }
+  
+  function createTimeInEvent(record, dateStamp) {
+    let [date, hour] = dateStamp.split(' ');
+  
+    let timeInEvent = {
+      type: 'TimeIn',
+      hour: parseInt(hour, 10),
+      date,
+    };
+    record.timeInEvents.push(timeInEvent);
+    return record;
+  }
+  
+  function createTimeOutEvent(record, dateStamp) {
+    let [date, hour] = dateStamp.split(' ');
+  
+    let timeOutEvent = {
+      type: 'TimeOut',
+      hour: parseInt(hour, 10),
+      date,
+    };
+    record.timeOutEvents.push(timeOutEvent);
+    return record;
+  }
+  
+  function hoursWorkedOnDate(employee, date) {
+    let timeIn =
+      employee.timeInEvents.find((event) => event.date === date).hour / 100;
+    let timeOut =
+      employee.timeOutEvents.find((event) => event.date === date).hour / 100;
+    return timeOut - timeIn;
+  }
+  
+  function wagesEarnedOnDate(employee, date) {
+    let wages = hoursWorkedOnDate(employee, date) * employee.payPerHour;
+    return wages;
+  }
+  
+
 const allWagesFor = function () {
     const eligibleDates = this.timeInEvents.map(function (e) {
         return e.date
